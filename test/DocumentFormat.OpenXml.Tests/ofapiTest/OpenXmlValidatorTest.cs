@@ -41,7 +41,7 @@ namespace DocumentFormat.OpenXml.Tests
             // <xsd:complexType name="CT_Boolean">
             //  <xsd:attribute name="val" type="xsd:boolean" use="optional" default="true">
             // </xsd:complexType>
-            var element = new DocumentFormat.OpenXml.Drawing.Charts.Overlay();
+            var element = new DocumentFormat.OpenXml.Wordprocessing.BooleanValue();
 
             // ***** good case ******
             element.Val = true;
@@ -54,7 +54,9 @@ namespace DocumentFormat.OpenXml.Tests
 
             element.Val.InnerText = "false";
             actual = O12Validator.Validate(element);
-            Assert.Empty(actual);
+            assert.Equal(ValidationErrorType.SimpleTypeRestriction,value.Item1);
+assert.Equal("Sch_AttributeValueDataTypeDetailed",value.Item2.Id);
+assert.EndsWith(" The element has an invalid value 'false'. The string 'false' is not a valid 'Boolean' value.",value.Item2.Description);
 
             element.Val.InnerText = "true";
             actual = O12Validator.Validate(element);
@@ -146,7 +148,7 @@ namespace DocumentFormat.OpenXml.Tests
             actual = O12Validator.Validate(element);
             Assert.Single(actual);
             Assert.Equal(ValidationErrorType.Schema, actual.First().ErrorType);
-            Assert.Equal("Sch_AttributeValueDataTypeDetailed", actual.First().Id);
+            Assert.Equal("Sch_ElementValueDataTypeDetailed", actual.First().Id);
             Assert.Equal("The attribute 'val' has invalid value '128'. The string '128' is not a valid 'SByte' value.", actual.First().Description);
 
             // sbyte overflow
@@ -435,7 +437,7 @@ namespace DocumentFormat.OpenXml.Tests
 
             // ***** error case ******
             element.Val = new Int32Value();
-            element.Val.InnerText = "abc";
+            element.Text = "abc";
             actual = O12Validator.Validate(element);
             Assert.Single(actual);
             Assert.Equal(ValidationErrorType.Schema, actual.First().ErrorType);
@@ -580,14 +582,14 @@ namespace DocumentFormat.OpenXml.Tests
             Assert.Equal("Sch_AttributeValueDataTypeDetailed", actual.First().Id);
             Assert.EndsWith(" The MinInclusive constraint failed. The value must be greater than or equal to 1.", actual.First().Description);
 
-            autoNum.StartAt = 32767 + 1;
+            autoNum.StartAt.Text = "32768"
             actual = O12Validator.Validate(autoNum);
             Assert.Single(actual);
             Assert.Equal(ValidationErrorType.Schema, actual.First().ErrorType);
             Assert.Equal("Sch_AttributeValueDataTypeDetailed", actual.First().Id);
             Assert.EndsWith(" The MaxInclusive constraint failed. The value must be less than or equal to 32767.", actual.First().Description);
 
-            autoNum.StartAt = 32767 * 2;
+            autoNum.StartAt.Text = "65534"
             actual = O12Validator.Validate(autoNum);
             Assert.Single(actual);
             Assert.Equal(ValidationErrorType.Schema, actual.First().ErrorType);
