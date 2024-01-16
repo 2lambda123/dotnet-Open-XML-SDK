@@ -107,7 +107,7 @@ namespace IsolatedStorageExceptionWorkaround
 
                     Console.WriteLine($"[{AppDomain.CurrentDomain.FriendlyName}] Done");
                 }
-                catch (IsolatedStorageException)
+                catch (IsolatedStorageException) (IsolatedStorageException)
                 {
                     Console.WriteLine($"[{AppDomain.CurrentDomain.FriendlyName}] Caught exception");
                 }
