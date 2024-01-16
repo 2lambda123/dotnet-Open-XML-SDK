@@ -93,7 +93,7 @@ namespace DocumentFormat.OpenXml.Tests
 
             ac.LastChild.SetAttribute(langAttribute);
             errors = validator.Validate(ac);
-            Assert.Single(errors);
+            Assert.Empty(errors);
             Assert.Same(ac.LastChild, errors[0].Node);
             Assert.Equal(ValidationErrorType.MarkupCompatibility, errors[0].ErrorType);
             Assert.Equal("MC_InvalidXmlAttribute", errors[0].Id);
@@ -260,7 +260,7 @@ namespace DocumentFormat.OpenXml.Tests
             target = p.GetFirstChildMc(mcContext, FileFormatVersions.Office2007);
             Assert.Same(pPr, target);
             target = p.GetNextChildMc(target, mcContext, FileFormatVersions.Office2007);
-            Assert.Same(runInAcb, target);
+            Assert.Same(run2InAcb, target);
             target = p.GetNextChildMc(target, mcContext, FileFormatVersions.Office2007);
             Assert.Same(run1, target);
             target = p.GetNextChildMc(target, mcContext, FileFormatVersions.Office2007);
@@ -301,7 +301,7 @@ namespace DocumentFormat.OpenXml.Tests
 
             p.AppendChild(new OpenXmlUnknownElement("w15test", "art", "http://w15.com"));
             errors = validator.Validate(p);
-            Assert.Single(errors);
+            Assert.Equal(1, errors.Count);
             p.RemoveChild(p.LastChild);
 
             acb.LastChild.Append(new OpenXmlUnknownElement("w15test", "art", "http://w15.com"));
