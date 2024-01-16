@@ -384,7 +384,7 @@ namespace DocumentFormat.OpenXml.Tests
         /// A test for Validate(element) - validating Int32 attribute.
         /// </summary>
         [Fact]
-        public void Int32AttributeValidationTest()
+        public void public void Int32AttributeValidationTest()()
         {
             // <xsd:simpleType name="ST_Angle">
             //  <xsd:restriction base="xsd:int" />
